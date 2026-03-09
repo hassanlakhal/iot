@@ -36,4 +36,34 @@ kubectl apply --server-side -n argocd -f https://raw.githubusercontent.com/argop
 echo "Waiting for Argo CD (this takes ~4 mins)..."
 kubectl wait --for=condition=ready pod -l app.kubernetes.io/name=argocd-server -n argocd --timeout=600s
 
-echo "Installation complete!
+# 8. Get ArgoCD credentials
+echo ""
+echo "=========================================="
+echo "✓ Installation Complete!"
+echo "=========================================="
+echo ""
+ARGOCD_PASS=$(kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath='{.data.password}' | base64 --decode)
+
+# Get the IP address of the machine
+HOST_IP=$(hostname -I | awk '{print $1}')
+
+echo "✓ ArgoCD accessible at: https://${HOST_IP}:4443"
+echo "✓ ArgoCD Username: admin"
+echo "✓ ArgoCD Password: $ARGOCD_PASS"
+echo ""
+echo "Starting port-forward in background..."
+nohup kubectl port-forward --address 0.0.0.0 service/argocd-server 4443:443 -n argocd > /tmp/argocd-forward.log 2>&1 &
+sleep 2
+
+echo "✓ Port-forward started"
+echo ""
+echo "To stop port-forward:"
+echo "  pkill -f 'kubectl port-forward.*argocd-server'"
+echo ""
+echo "=========================================="
+
+# 9. Deploy application
+echo "[*] Deploying application..."
+kubectl apply -f confs/application.yaml
+
+echo "[✓] Application deployed!"
