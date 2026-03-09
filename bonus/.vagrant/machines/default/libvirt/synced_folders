@@ -1,0 +1,1 @@
+{"rsync":{"/vagrant":{"disabled":false,"guestpath":"/vagrant","hostpath":"/home/hassan/Desktop/inception-of-things/bonus","type":"rsync","__vagrantfile":true,"owner":"vagrant","group":"vagrant"}}}

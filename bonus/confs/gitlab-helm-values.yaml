@@ -1,0 +1,69 @@
+global:
+  # We will use custom ingress
+  ingress:
+    enabled: false
+    configureCertmanager: false
+    tls:
+      enabled: false
+  hosts:
+    domain: k3d.local
+    hostSuffix:
+    https: false
+    externalIP:
+    ssh: ~
+    gitlab:
+      name: gitlab.k3d.local
+      https: false
+    minio:
+      name: minio.k3d.local
+      https: false
+    registry:
+      name: registry.k3d.local
+      https: false
+    tls:
+      name: tls.k3d.local
+      https: false
+    smartcard:
+      name: smartcard.k3d.local
+      https: false
+    kas:
+      name: kas.k3d.local
+      https: false
+    pages:
+      name: pages.k3d.local
+      https: false
+
+certmanager-issuer:
+  email: admin@k3d.local
+nginx-ingress:
+  enabled: false
+prometheus:
+  install: false
+gitlab-runner:
+  install: false
+gitaly:
+  persistence:
+    enabled: true
+    size: 5Gi
+postgresql:
+  persistence:
+    enabled: true
+    size: 5Gi
+redis:
+  persistence:
+    enabled: true
+    size: 3Gi
+gitlab:
+  webservice:
+    minReplicas: 1
+    maxReplicas: 1
+  sidekiq:
+    minReplicas: 1
+    maxReplicas: 1
+  gitlab-shell:
+    minReplicas: 1
+    maxReplicas: 1
+registry:
+  hpa:
+    minReplicas: 1
+    maxReplicas: 1

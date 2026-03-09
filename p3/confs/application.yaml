@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: iot-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/hassanlakhal/iot-p3-config.git'
+    targetRevision: HEAD
+    path: app-config
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: dev
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
